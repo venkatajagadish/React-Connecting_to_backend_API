@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Places from "./Places.jsx";
 import ErrorPage from "./Error.jsx";
+import { GetAvailablePlaces } from "../httphelper.js";
 
 export default function AvailablePlaces({ onSelectPlace }) {
   const [fetchingData, setFetchingData] = useState(false);
@@ -11,12 +12,8 @@ export default function AvailablePlaces({ onSelectPlace }) {
     async function fetChPlaces() {
       setFetchingData(true);
       try {
-        const response = await fetch("http://localhost:3000/places");
-        if (!response.ok) {
-          throw new Error("Failed to fetch places");
-        }
-        const resData = await response.json();
-        setAvailablePlaces(resData.places);
+        var response = await GetAvailablePlaces();
+        setAvailablePlaces(response);
       } catch (error) {
         setError(error);
       }
